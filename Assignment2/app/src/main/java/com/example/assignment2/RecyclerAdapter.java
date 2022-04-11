@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     ArrayList<String> descriptions = new ArrayList<>();
     ArrayList<String> prices = new ArrayList<>();
     ArrayList<String> images = new ArrayList<>();
+    boolean isChecked = false;
 
     public RecyclerAdapter(Context context, ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<String> prices, ArrayList<String> images) {
         this.context = context;
@@ -43,9 +45,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
+
         holder.title.setText(titles.get(position));
         holder.description.setText(descriptions.get(position));
-        holder.price.setText(prices.get(position));
+        holder.price.setText("$" + prices.get(position));
 
         //for image view
         int imageResource = context.getResources().getIdentifier(images.get(position), null, context.getPackageName());
@@ -59,12 +62,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.favouriteImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.favouriteImageView.getDrawable() == context.getResources().getDrawable(android.R.drawable.btn_star_big_off)) {
+                if (!isChecked) {
+                    //Toast.makeText(context, "image is: " + holder.favouriteImageView.getDrawable(), Toast.LENGTH_SHORT).show();
                     holder.favouriteImageView.setImageDrawable(context.getResources().getDrawable(android.R.drawable.btn_star_big_on));
+                    isChecked = true;
                 }
                 else {
                     holder.favouriteImageView.setImageDrawable(res2);
+                    isChecked = false;
                 }
+            }
+        });
+
+        holder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
@@ -77,6 +90,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, description, price;
         ImageView imageView, favouriteImageView;
+        Button button;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,6 +100,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             price = (TextView) itemView.findViewById(R.id.priceTextView);
             favouriteImageView = (ImageView) itemView.findViewById(R.id.favouriteImageView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            button = (Button) itemView.findViewById(R.id.button);
         }
     }
 }
