@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,12 +17,10 @@ import java.util.ArrayList;
 
 public class FlowersActivity extends AppCompatActivity {
 
-    ArrayList<String> titles = new ArrayList<>();
-    ArrayList<String> descriptions = new ArrayList<>();
-    ArrayList<String> prices = new ArrayList<>();
-    ArrayList<String> images = new ArrayList<>();
+    ArrayList<Product> products = new ArrayList<>();
 
     RecyclerView recyclerView;
+    DatabaseHelper db;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -54,41 +53,13 @@ public class FlowersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flowers);
 
+        db = new DatabaseHelper(this);
+        db.getWritableDatabase();
+        products = db.getFlowers();
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        titles.add("Azalea");
-        titles.add("Calla Lily");
-        titles.add("Daisy");
-        titles.add("Hydrangea");
-        titles.add("Lily");
-        titles.add("Tulip");
-        titles.add("White Rose");
-
-        descriptions.add("An azalea.");
-        descriptions.add("A calla lily");
-        descriptions.add("A daisy");
-        descriptions.add("A hydrangea");
-        descriptions.add("A lily");
-        descriptions.add("A tulip");
-        descriptions.add("A white Rose");
-
-        prices.add("5.00");
-        prices.add("5.00");
-        prices.add("5.00");
-        prices.add("5.00");
-        prices.add("5.00");
-        prices.add("5.00");
-        prices.add("5.00");
-
-        images.add("@drawable/azalea");
-        images.add("@drawable/callalily");
-        images.add("@drawable/daisy");
-        images.add("@drawable/hydrangea");
-        images.add("@drawable/lily");
-        images.add("@drawable/tulip");
-        images.add("@drawable/whiteroses");
-
-        RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(), titles, descriptions, prices, images);
+        RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(), products);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
     }

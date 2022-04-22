@@ -2,10 +2,14 @@ package com.example.assignment2;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.sql.Array;
+import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -85,7 +89,69 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    pub
+    public ArrayList<Product> getFlowers() {
+        ArrayList<Product> flowers = new ArrayList<>();
 
+        String select = "SELECT * FROM products WHERE category = 'flower'";
+        SQLiteDatabase database = getWritableDatabase();
+        Cursor cursor = database.rawQuery(select, null);
 
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = new Product();
+                product.setCategory(cursor.getString(1));
+                product.setTitle(cursor.getString(2));
+                product.setDescription(cursor.getString(3));
+                product.setPrice(Double.parseDouble(cursor.getString(4)));
+                product.setImage(cursor.getString(5));
+
+                flowers.add(product);
+            } while (cursor.moveToNext());
+        }
+        return flowers;
+    }
+
+    public ArrayList<Product> getGifts() {
+        ArrayList<Product> gifts = new ArrayList<>();
+
+        String select = "SELECT * FROM products WHERE category = 'gift'";
+        SQLiteDatabase database = getWritableDatabase();
+        Cursor cursor = database.rawQuery(select, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = new Product();
+                product.setCategory(cursor.getString(1));
+                product.setTitle(cursor.getString(2));
+                product.setDescription(cursor.getString(3));
+                product.setPrice(Double.parseDouble(cursor.getString(4)));
+                product.setImage(cursor.getString(5));
+
+                gifts.add(product);
+            } while (cursor.moveToNext());
+        }
+        return gifts;
+    }
+
+    public ArrayList<Product> getAll() {
+        ArrayList<Product> all = new ArrayList<>();
+
+        String select = "SELECT * FROM products";
+        SQLiteDatabase database = getWritableDatabase();
+        Cursor cursor = database.rawQuery(select, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = new Product();
+                product.setCategory(cursor.getString(1));
+                product.setTitle(cursor.getString(2));
+                product.setDescription(cursor.getString(3));
+                product.setPrice(Double.parseDouble(cursor.getString(4)));
+                product.setImage(cursor.getString(5));
+
+                all.add(product);
+            } while (cursor.moveToNext());
+        }
+        return all;
+    }
 }

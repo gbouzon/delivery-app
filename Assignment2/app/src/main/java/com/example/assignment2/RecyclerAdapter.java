@@ -19,18 +19,13 @@ import java.util.ArrayList;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<String> titles = new ArrayList<>();
-    ArrayList<String> descriptions = new ArrayList<>();
-    ArrayList<String> prices = new ArrayList<>();
-    ArrayList<String> images = new ArrayList<>();
+    ArrayList<Product> products = new ArrayList<>();
+
     boolean isChecked = false;
 
-    public RecyclerAdapter(Context context, ArrayList<String> titles, ArrayList<String> descriptions, ArrayList<String> prices, ArrayList<String> images) {
+    public RecyclerAdapter(Context context, ArrayList<Product> products) {
         this.context = context;
-        this.titles = titles;
-        this.descriptions = descriptions;
-        this.prices = prices;
-        this.images = images;
+        this.products = products;
     }
 
     @NonNull
@@ -46,12 +41,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
 
-        holder.title.setText(titles.get(position));
-        holder.description.setText(descriptions.get(position));
-        holder.price.setText("$" + prices.get(position));
+        holder.title.setText(products.get(position).getTitle());
+        holder.description.setText(products.get(position).getDescription());
+        holder.price.setText("$" + products.get(position).getPrice());
 
         //for image view
-        int imageResource = context.getResources().getIdentifier(images.get(position), null, context.getPackageName());
+        int imageResource = context.getResources().getIdentifier(products.get(position).getImage(), null, context.getPackageName());
         Drawable res = context.getResources().getDrawable(imageResource);
         holder.imageView.setImageDrawable(res);
 
@@ -84,7 +79,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return titles.size();
+        return products.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
