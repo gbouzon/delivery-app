@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.nio.file.FileVisitOption;
 import java.util.ArrayList;
 
 public class FlowersActivity extends AppCompatActivity {
@@ -33,15 +34,20 @@ public class FlowersActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.favouritesMenu:
-                Toast.makeText(this, "Item 1 is selected", Toast.LENGTH_SHORT).show();
-                break;
             case R.id.homeMenu:
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 break;
             case R.id.giftsMenu:
                 intent = new Intent(getApplicationContext(), GiftsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.favouritesMenu:
+                intent = new Intent(getApplicationContext(), FavouriteActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.cartMenu:
+                intent = new Intent(getApplicationContext(), CartActivity.class);
                 startActivity(intent);
                 break;
         }

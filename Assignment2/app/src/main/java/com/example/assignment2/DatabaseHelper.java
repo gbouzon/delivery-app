@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "category VARCHAR, title VARCHAR UNIQUE, description TEXT, price REAL, image VARCHAR)");
 
         sqLiteDatabase.execSQL("CREATE TABLE if not exists favourites (id INTEGER primary key autoincrement, " +
-                "product_id INTEGER, CONSTRAINT fk_products FOREIGN KEY (product_id) " +
+                "product_id INTEGER UNIQUE, CONSTRAINT fk_products FOREIGN KEY (product_id) " +
                 "REFERENCES products(product_id))");
 
         sqLiteDatabase.execSQL("CREATE TABLE if not exists cart (id INTEGER primary key autoincrement, " +
@@ -53,8 +53,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("Drop table if exists products");
         sqLiteDatabase.execSQL("Drop table if exists favourites");
+        sqLiteDatabase.execSQL("Drop table if exists cart");
+        sqLiteDatabase.execSQL("Drop table if exists products");
         onCreate(sqLiteDatabase);
     }
 
@@ -67,12 +68,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean addToCart(Integer productId) {
+    public boolean removeFavourite(int productId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("favourites", "product_id" + " = ?",
+                new String[] { String.valueOf(productId) });
+        db.close();
+        return true;
+    }
+
+    public boolean addToCart(int productId) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("product_id", productId);
         database.insert("cart", null, values);
         database.close();
+        return true;
+    }
+
+    public boolean removeFromCart(int productId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("cart", "product_id" + " = ?",
+                new String[] { String.valueOf(productId) });
+        db.close();
         return true;
     }
 
@@ -153,5 +170,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         return all;
+    }
+
+    public ArrayList<Product> getFavourites() {
+        ArrayList<Product> all = new ArrayList<>();
+
+        String select = "SELECT * FROM favourites";
+        SQLiteDatabase database = getWritableDatabase();
+        Cursor cursor = database.rawQuery(select, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = getProductById(Integer.parseInt(cursor.getString(1)));
+                all.add(product);
+            } while (cursor.moveToNext());
+        }
+        return all;
+    }
+
+
+
+    public int getIdByTitle(String title) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Product product = new Product();
+
+        String select = "SELECT * FROM products WHERE title = '" + title + "'";
+        Cursor cursor = db.rawQuery(select, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        return cursor.getInt(0);
+    }
+
+    public Product getProductById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Product product = new Product();
+
+        String select = "SELECT * FROM products WHERE product_id = '" + id + "'";
+        Cursor cursor = db.rawQuery(select, null);
+
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        product.setCategory(cursor.getString(1));
+        product.setTitle(cursor.getString(2));
+        product.setDescription(cursor.getString(3));
+        product.setPrice(Double.parseDouble(cursor.getString(4)));
+        product.setImage(cursor.getString(5));
+
+        return product;
     }
 }

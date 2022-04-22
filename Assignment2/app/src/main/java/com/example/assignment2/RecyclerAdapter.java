@@ -20,12 +20,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     Context context;
     ArrayList<Product> products = new ArrayList<>();
+    DatabaseHelper db;
 
     boolean isChecked = false;
 
     public RecyclerAdapter(Context context, ArrayList<Product> products) {
         this.context = context;
         this.products = products;
+        db = new DatabaseHelper(context);
+        db.getReadableDatabase();
     }
 
     @NonNull
@@ -40,13 +43,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
+        Product current = products.get(position);
 
-        holder.title.setText(products.get(position).getTitle());
-        holder.description.setText(products.get(position).getDescription());
-        holder.price.setText("$" + products.get(position).getPrice());
+        holder.title.setText(current.getTitle());
+        holder.description.setText(current.getDescription());
+        holder.price.setText("$" + current.getPrice());
 
         //for image view
-        int imageResource = context.getResources().getIdentifier(products.get(position).getImage(), null, context.getPackageName());
+        int imageResource = context.getResources().getIdentifier(current.getImage(), null, context.getPackageName());
         Drawable res = context.getResources().getDrawable(imageResource);
         holder.imageView.setImageDrawable(res);
 
@@ -60,10 +64,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 if (!isChecked) {
                     //Toast.makeText(context, "image is: " + holder.favouriteImageView.getDrawable(), Toast.LENGTH_SHORT).show();
                     holder.favouriteImageView.setImageDrawable(context.getResources().getDrawable(android.R.drawable.btn_star_big_on));
+                    db.addFavourite(db.getIdByTitle(current.getTitle()));
                     isChecked = true;
                 }
                 else {
                     holder.favouriteImageView.setImageDrawable(res2);
+                    db.removeFavourite(db.getIdByTitle(current.getTitle()));
                     isChecked = false;
                 }
             }
@@ -72,7 +78,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                db.addToCart(db.getIdByTitle(current.getTitle()));
             }
         });
     }
