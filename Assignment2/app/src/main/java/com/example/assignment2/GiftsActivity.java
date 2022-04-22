@@ -37,9 +37,6 @@ public class GiftsActivity extends AppCompatActivity {
             case R.id.favouritesMenu:
                 //Toast.makeText(this, "Item 1 is selected", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.backMenu:
-                //go back to previous page
-                break;
             case R.id.flowersMenu:
                 Intent intent = new Intent(getApplicationContext(), FlowersActivity.class);
                 startActivity(intent);

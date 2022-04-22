@@ -8,13 +8,12 @@
         android:id="@+id/giftsMenu"
         android:title="Gifts" />
     <item
-        android:id="@+id/backMenu"
-        android:icon="@drawable/ic_back"
-        android:title="Back" />
-    <item
         android:id="@+id/favouritesMenu"
         android:title="Favourites" />
     <item
         android:id="@+id/homeMenu"
         android:title="Home" />
+    <item
+        android:id="@+id/cartMenu"
+        android:title="Cart" />
 </menu>

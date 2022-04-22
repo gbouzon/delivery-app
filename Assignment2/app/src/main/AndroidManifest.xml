@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Assignment2">
         <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+        <activity
             android:name=".GiftsActivity"
             android:exported="false" />
         <activity

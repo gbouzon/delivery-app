@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> descriptions = new ArrayList<>();
     ArrayList<String> prices = new ArrayList<>();
     ArrayList<String> images = new ArrayList<>();
+    DatabaseHelper db;
 
     RecyclerView recyclerView;
 
@@ -29,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        db = new DatabaseHelper(this);
+        db.getWritableDatabase();
+        db.addToCart(1);
 
         titles.add("Azalea");
         titles.add("Calla Lily");
@@ -106,6 +109,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void populateList(ArrayList<String> list) {
+
+    }
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -120,9 +129,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.favouritesMenu:
                 Toast.makeText(this, "Item 1 is selected", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.backMenu:
-                //go back to previous page
-                break;
             case R.id.flowersMenu:
                 Intent intent = new Intent(getApplicationContext(), FlowersActivity.class);
                 startActivity(intent);
@@ -131,8 +137,13 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(getApplicationContext(), GiftsActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.cartMenu:
+                intent = new Intent(getApplicationContext(), CartActivity.class);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }
