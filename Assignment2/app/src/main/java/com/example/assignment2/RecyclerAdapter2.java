@@ -14,6 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+// --------------------------------------------------------------------
+// Assignment 2
+// Written by: Giuliana Bouzon - 1940108
+// For Application Development 2 (Mobile) - Winter 2022
+// --------------------------------------------------------------------
 public class RecyclerAdapter2 extends RecyclerView.Adapter<RecyclerAdapter2.ViewHolder> {
 
     Context context;

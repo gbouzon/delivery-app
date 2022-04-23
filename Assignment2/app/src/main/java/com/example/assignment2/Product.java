@@ -1,5 +1,10 @@
 package com.example.assignment2;
 
+// --------------------------------------------------------------------
+// Assignment 2
+// Written by: Giuliana Bouzon - 1940108
+// For Application Development 2 (Mobile) - Winter 2022
+// --------------------------------------------------------------------
 public class Product {
 
     //attributes

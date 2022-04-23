@@ -17,6 +17,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+// --------------------------------------------------------------------
+// Assignment 2
+// Written by: Giuliana Bouzon - 1940108
+// For Application Development 2 (Mobile) - Winter 2022
+// --------------------------------------------------------------------
 public class GiftsActivity extends AppCompatActivity {
 
     ArrayList<Product> products = new ArrayList<>();
@@ -31,6 +36,7 @@ public class GiftsActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
         db.getWritableDatabase();
+        //gets all the gifts in the database
         products = db.getGifts();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -68,6 +74,7 @@ public class GiftsActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.guideMenu:
+                //redirects user to a gift guide
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://nymag.com/strategist/gift-guides/"));
                 startActivity(intent);
                 break;

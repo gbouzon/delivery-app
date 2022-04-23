@@ -11,6 +11,11 @@ import androidx.annotation.Nullable;
 import java.sql.Array;
 import java.util.ArrayList;
 
+// --------------------------------------------------------------------
+// Assignment 2
+// Written by: Giuliana Bouzon - 1940108
+// For Application Development 2 (Mobile) - Winter 2022
+// --------------------------------------------------------------------
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "database.db";
@@ -33,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "product_id INTEGER, CONSTRAINT fk_products FOREIGN KEY (product_id) " +
                 "REFERENCES products(product_id))");
 
+        //inserting default flowers and gifts into the database at creation
         sqLiteDatabase.execSQL("INSERT INTO products(category, title, description, price, image) VALUES('flower', 'Azalea', 'An azalea', 5.00, '@drawable/azalea')");
         sqLiteDatabase.execSQL("INSERT INTO products(category, title, description, price, image) VALUES('flower', 'Calla Lily', 'A calla lily', 5.00, '@drawable/callalily')");
         sqLiteDatabase.execSQL("INSERT INTO products (category, title, description, price, image) VALUES('flower', 'Daisy', 'A daisy', 5.00, '@drawable/daisy')");
@@ -59,6 +65,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
+    /**
+     * Adds a product to the user's favourites list
+     * @param productId, the product id of the product to be added to the favourites list
+     * @return true if product was successfully added.
+     */
     public boolean addFavourite(int productId) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -68,6 +79,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    /**
+     * Removes a product from the user's favourites list
+     * @param productId, the product id of the product to be removed from the favourites list
+     * @return true if the product was successfully deleted.
+     */
     public boolean removeFavourite(int productId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("favourites", "product_id" + " = ?",
@@ -76,6 +92,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    /**
+     * Adds a product to the user's cart
+     * @param productId, the product id of the product being added to the cart
+     * @return true if the product was successfully added
+     */
     public boolean addToCart(int productId) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -85,6 +106,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    /**
+     * Removes a product from the user's cart
+     * @param productId, the product id of the product being removed from the cart
+     * @return true if the product was successfully removed.
+     */
     public boolean removeFromCart(int productId) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("cart", "product_id" + " = ?",
@@ -93,19 +119,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean addProduct(String productCategory, String productTitle, String productDescription, double productPrice, String productImage) {
-        SQLiteDatabase database = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("category", productCategory);
-        values.put("title", productTitle);
-        values.put("description", productDescription);
-        values.put("price", productPrice);
-        values.put("image", productImage);
-        database.insert("products", null, values);
-        database.close();
-        return true;
-    }
-
+    /**
+     * Retrieves all products from the database that are flowers.
+     * @return a list with all flowers in the database.
+     */
     public ArrayList<Product> getFlowers() {
         ArrayList<Product> flowers = new ArrayList<>();
 
@@ -128,6 +145,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return flowers;
     }
 
+    /**
+     * Retrieves all products from the database that are gifts.
+     * @return a list with all the gifts in the database.
+     */
     public ArrayList<Product> getGifts() {
         ArrayList<Product> gifts = new ArrayList<>();
 
@@ -150,6 +171,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return gifts;
     }
 
+    /**
+     * Retrieves all of the products in the database.
+     * @return a list with all the products in the database.
+     */
     public ArrayList<Product> getAll() {
         ArrayList<Product> all = new ArrayList<>();
 
@@ -172,6 +197,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return all;
     }
 
+    /**
+     * Retrieves all the products that have been added to the user's favourites list
+     * @return a list with all favourite products.
+     */
     public ArrayList<Product> getFavourites() {
         ArrayList<Product> all = new ArrayList<>();
 
@@ -188,6 +217,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return all;
     }
 
+    /**
+     * Retrieves all the products that have been added to the user's cart
+     * @return a list with all the products in the user's cart.
+     */
     public ArrayList<Product> getCart() {
         ArrayList<Product> all = new ArrayList<>();
 
@@ -204,6 +237,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return all;
     }
 
+    /**
+     * Retrieves a product's id by its title
+     * @param title, the title of the product.
+     * @return the product's product id
+     */
     public int getIdByTitle(String title) {
         SQLiteDatabase db = this.getReadableDatabase();
         Product product = new Product();
@@ -217,6 +255,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor.getInt(0);
     }
 
+    /**
+     * Retrieves a product by its id
+     * @param id, the id of the given product
+     * @return the product
+     */
     public Product getProductById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Product product = new Product();
@@ -236,6 +279,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return product;
     }
 
+    /**
+     * Deletes all records from the cart table and the favourites table
+     */
     public void deleteAll() {
         SQLiteDatabase db = getWritableDatabase();
         db.delete("favourites", null, null);

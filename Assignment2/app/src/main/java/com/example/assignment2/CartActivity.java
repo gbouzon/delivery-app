@@ -18,7 +18,11 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-
+// --------------------------------------------------------------------
+// Assignment 2
+// Written by: Giuliana Bouzon - 1940108
+// For Application Development 2 (Mobile) - Winter 2022
+// --------------------------------------------------------------------
 public class CartActivity extends AppCompatActivity {
     ArrayList<Product> products = new ArrayList<>();
 
@@ -44,6 +48,7 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+        //sets the total price in cart details
         total.setText("$" + calculateTotal());
 
         checkoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +94,10 @@ public class CartActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Calculates the total price of the products in the cart
+     * @return the total.
+     */
     public double calculateTotal() {
         double total = 0;
         for (Product product : products) {

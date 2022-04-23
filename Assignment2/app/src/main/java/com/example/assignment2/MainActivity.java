@@ -17,6 +17,11 @@ import android.widget.Toast;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+// --------------------------------------------------------------------
+// Assignment 2
+// Written by: Giuliana Bouzon - 1940108
+// For Application Development 2 (Mobile) - Winter 2022
+// --------------------------------------------------------------------
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<Product> products = new ArrayList<>();
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.guideMenu:
+                //redirects user to a gift guide
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://nymag.com/strategist/gift-guides/"));
                 startActivity(intent);
                 break;
