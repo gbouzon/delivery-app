@@ -1,59 +1,52 @@
 package com.example.assignment2;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
 public class CheckoutActivity extends AppCompatActivity {
+
+    EditText nameEditText, emailEditText, notesEditText;
+    RadioButton pickupRadioBtn, deliveryRadioBtn;
+    Button completeBtn;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
-        return true;
-    }
+        nameEditText = (EditText) findViewById(R.id.nameEditText);
+        emailEditText = (EditText) findViewById(R.id.emailEditText);
+        notesEditText = (EditText) findViewById(R.id.notesEditText);
+        pickupRadioBtn = (RadioButton) findViewById(R.id.pickupRadioBtn);
+        deliveryRadioBtn = (RadioButton) findViewById(R.id.deliveryRadioBtn);
+        completeBtn = (Button) findViewById(R.id.completeBtn);
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.flowersMenu:
-                Intent intent = new Intent(getApplicationContext(), FlowersActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.homeMenu:
-                intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.giftsMenu:
-                intent = new Intent(getApplicationContext(), GiftsActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.guideMenu:
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://nymag.com/strategist/gift-guides/"));
-                startActivity(intent);
-                break;
-            case R.id.cartMenu:
-                intent = new Intent(getApplicationContext(), CartActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.favouritesMenu:
-                intent = new Intent(getApplicationContext(), FavouriteActivity.class);
-                startActivity(intent);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+        completeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (nameEditText.getText().toString().isEmpty() || emailEditText.getText().toString().isEmpty())
+                    Toast.makeText(getApplicationContext(), "Please enter a name and an email before continuing.", Toast.LENGTH_SHORT).show();
+                else {
+                    intent = new Intent(getApplicationContext(), TheEndActivity.class);
+                    if (pickupRadioBtn.isChecked() || deliveryRadioBtn.isChecked()) {
+                        if (pickupRadioBtn.isChecked()) {
+                            intent.putExtra("delivery", "Pick-Up");
+                        } else {
+                            intent.putExtra("delivery", "Delivery");
+                        }
+                        startActivity(intent);
+                    } else
+                        Toast.makeText(getApplicationContext(), "Method of delivery cannot be empty.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

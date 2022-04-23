@@ -235,4 +235,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return product;
     }
+
+    public void deleteAll() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("favourites", null, null);
+        db.delete("cart", null, null);
+        db.close();
+    }
 }
