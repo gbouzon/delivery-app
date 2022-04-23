@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,6 +44,14 @@ public class FavouriteActivity extends AppCompatActivity {
                 intent = new Intent(getApplicationContext(), GiftsActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.guideMenu:
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://nymag.com/strategist/gift-guides/"));
+                startActivity(intent);
+                break;
+            case R.id.cartMenu:
+                intent = new Intent(getApplicationContext(), CartActivity.class);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -58,9 +67,8 @@ public class FavouriteActivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(), products);
+        RecyclerAdapter2 adapter = new RecyclerAdapter2(getApplicationContext(), products);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
     }
-
 }

@@ -6,14 +6,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.nio.file.FileVisitOption;
 import java.util.ArrayList;
 
 public class FlowersActivity extends AppCompatActivity {
@@ -48,6 +47,10 @@ public class FlowersActivity extends AppCompatActivity {
                 break;
             case R.id.cartMenu:
                 intent = new Intent(getApplicationContext(), CartActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.guideMenu:
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://nymag.com/strategist/gift-guides/"));
                 startActivity(intent);
                 break;
         }

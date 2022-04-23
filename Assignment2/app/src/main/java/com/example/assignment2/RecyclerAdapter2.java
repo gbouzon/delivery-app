@@ -1,7 +1,6 @@
 package com.example.assignment2;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,14 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+public class RecyclerAdapter2 extends RecyclerView.Adapter<RecyclerAdapter2.ViewHolder> {
 
     Context context;
     ArrayList<Product> products = new ArrayList<>();
@@ -24,7 +22,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     boolean isChecked = false;
 
-    public RecyclerAdapter(Context context, ArrayList<Product> products) {
+    public RecyclerAdapter2(Context context, ArrayList<Product> products) {
         this.context = context;
         this.products = products;
         db = new DatabaseHelper(context);
@@ -33,16 +31,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @NonNull
     @Override
-    public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.flowers, parent, false);
+        View view = layoutInflater.inflate(R.layout.flowers_nobuttons, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerAdapter2.ViewHolder holder, int position) {
         Product current = products.get(position);
 
         holder.title.setText(current.getTitle());
@@ -53,27 +51,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         int imageResource = context.getResources().getIdentifier(current.getImage(), null, context.getPackageName());
         Drawable res = context.getResources().getDrawable(imageResource);
         holder.imageView.setImageDrawable(res);
-
-        //for star
-        Drawable res2 = context.getResources().getDrawable(android.R.drawable.btn_star_big_off);
-        holder.favouriteImageView.setImageDrawable(res2);
-
-        holder.favouriteImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isChecked) {
-                    //Toast.makeText(context, "image is: " + holder.favouriteImageView.getDrawable(), Toast.LENGTH_SHORT).show();
-                    holder.favouriteImageView.setImageDrawable(context.getResources().getDrawable(android.R.drawable.btn_star_big_on));
-                    db.addFavourite(db.getIdByTitle(current.getTitle()));
-                    isChecked = true;
-                }
-                else {
-                    holder.favouriteImageView.setImageDrawable(res2);
-                    db.removeFavourite(db.getIdByTitle(current.getTitle()));
-                    isChecked = false;
-                }
-            }
-        });
 
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +74,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, description, price;
-        ImageView imageView, favouriteImageView;
+        ImageView imageView;
         Button button, button2;
 
         public ViewHolder(@NonNull View itemView) {
@@ -106,7 +83,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             title = (TextView) itemView.findViewById(R.id.titleTextView);
             description = (TextView) itemView.findViewById(R.id.descriptionTextView);
             price = (TextView) itemView.findViewById(R.id.priceTextView);
-            favouriteImageView = (ImageView) itemView.findViewById(R.id.favouriteImageView);
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
             button = (Button) itemView.findViewById(R.id.button);
             button2 = (Button) itemView.findViewById(R.id.button2);

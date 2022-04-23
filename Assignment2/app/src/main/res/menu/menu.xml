@@ -2,6 +2,12 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/homeMenu"
+        android:title="Home" />
+    <item
+        android:id="@+id/guideMenu"
+        android:title="Gift Guide" />
+    <item
         android:id="@+id/flowersMenu"
         android:title="Flowers" />
     <item
@@ -10,9 +16,6 @@
     <item
         android:id="@+id/favouritesMenu"
         android:title="Favourites" />
-    <item
-        android:id="@+id/homeMenu"
-        android:title="Home" />
     <item
         android:id="@+id/cartMenu"
         android:title="Cart" />

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -64,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.favouritesMenu:
                 intent = new Intent(getApplicationContext(), FavouriteActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.guideMenu:
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://nymag.com/strategist/gift-guides/"));
                 startActivity(intent);
                 break;
         }

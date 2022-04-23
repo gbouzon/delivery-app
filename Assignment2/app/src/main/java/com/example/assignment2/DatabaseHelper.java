@@ -153,7 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<Product> getAll() {
         ArrayList<Product> all = new ArrayList<>();
 
-        String select = "SELECT * FROM products";
+        String select = "SELECT * FROM products ORDER BY title";
         SQLiteDatabase database = getWritableDatabase();
         Cursor cursor = database.rawQuery(select, null);
 
@@ -188,7 +188,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return all;
     }
 
+    public ArrayList<Product> getCart() {
+        ArrayList<Product> all = new ArrayList<>();
 
+        String select = "SELECT * FROM cart";
+        SQLiteDatabase database = getWritableDatabase();
+        Cursor cursor = database.rawQuery(select, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = getProductById(Integer.parseInt(cursor.getString(1)));
+                all.add(product);
+            } while (cursor.moveToNext());
+        }
+        return all;
+    }
 
     public int getIdByTitle(String title) {
         SQLiteDatabase db = this.getReadableDatabase();
